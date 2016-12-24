@@ -9,7 +9,7 @@
 <body>
 
 <form:form class="form-horizontal" method="post"
-                modelAttribute="status" action="/sol/submit">
+                modelAttribute="status" action="submit">
    
    <label>Resource</label>
    <form:select path="name">

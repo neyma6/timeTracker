@@ -1,10 +1,24 @@
 package com.expedia.sol.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "STATUS")
 public class Status {
 
+	@Id
+    @GeneratedValue
+    @Column(name = "ID")
+	private int id;
+	
 	private String name;
 	private double time;
 	private String description;
+	private long nanotime;
 
 	public String getName() {
 		return name;
@@ -24,10 +38,22 @@ public class Status {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
+	public long getNanotime() {
+		return nanotime;
+	}
+	public void setNanotime(long nanotime) {
+		this.nanotime = nanotime;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	@Override
 	public String toString() {
-		return "Status [name=" + name + ", time=" + time + ", description=" + description + "]";
+		return "Status [id=" + id + ", name=" + name + ", time=" + time + ", description=" + description + ", nanotime="
+				+ nanotime + "]";
 	}
 	
 	

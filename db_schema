@@ -1,0 +1,1 @@
+create table Status(ID INT PRIMARY KEY NOT NULL, name TEXT NOT NULL, time TEXT NOT NULL, description TEXT, nanotime TEXT NOT NULL);

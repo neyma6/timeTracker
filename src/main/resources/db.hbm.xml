@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+   "-//Hibernate/Hibernate Mapping DTD//EN"
+   "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping>
+   <class
+      name="com.expedia.sol.domain.Status"
+      table="STATUS">
+      <id
+         name="id"
+         column="STATUS_ID">
+         <generator class="increment"/>
+      </id>
+      <property
+         name="time"
+         column="STATUS_TIME"/>
+      
+      <property
+         name="name"
+         column="STATUS_NAME"/>
+      
+      <property
+         name="description"
+         column="STATUS_DESCRIPTION"/>
+      
+      <property
+         name="nanotime"
+         column="STATUS_NANOTIME"/>
+      
+   </class>
+</hibernate-mapping>
