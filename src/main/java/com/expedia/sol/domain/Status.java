@@ -15,10 +15,17 @@ public class Status {
     @Column(name = "ID")
 	private int id;
 	
+	@Column(name = "name")
 	private String name;
-	private double time;
+	
+	@Column(name = "time")
+	private String time;
+	
+	@Column(name = "description")
 	private String description;
-	private long nanotime;
+	
+	@Column(name = "timestamp")
+	private long timestamp;
 
 	public String getName() {
 		return name;
@@ -26,10 +33,10 @@ public class Status {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public double getTime() {
+	public String getTime() {
 		return time;
 	}
-	public void setTime(double time) {
+	public void setTime(String time) {
 		this.time = time;
 	}
 	public String getDescription() {
@@ -38,11 +45,12 @@ public class Status {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public long getNanotime() {
-		return nanotime;
+
+	public long getTimestamp() {
+		return timestamp;
 	}
-	public void setNanotime(long nanotime) {
-		this.nanotime = nanotime;
+	public void setTimestamp(long timestamp) {
+		this.timestamp = timestamp;
 	}
 	public int getId() {
 		return id;
@@ -53,7 +61,7 @@ public class Status {
 	@Override
 	public String toString() {
 		return "Status [id=" + id + ", name=" + name + ", time=" + time + ", description=" + description + ", nanotime="
-				+ nanotime + "]";
+				+ timestamp + "]";
 	}
 	
 	

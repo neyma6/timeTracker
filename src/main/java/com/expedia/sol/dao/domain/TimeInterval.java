@@ -4,19 +4,19 @@ import java.time.LocalTime;
 
 public class TimeInterval {
 
-	private final LocalTime start;
-	private final LocalTime end;
+	private final long start;
+	private final long end;
 	
-	public TimeInterval(LocalTime start, LocalTime end) {
+	public TimeInterval(long start, long end) {
 		this.start = start;
 		this.end = end;
 	}
 
-	public LocalTime getStart() {
+	public long getStart() {
 		return start;
 	}
 
-	public LocalTime getEnd() {
+	public long getEnd() {
 		return end;
 	}
 	

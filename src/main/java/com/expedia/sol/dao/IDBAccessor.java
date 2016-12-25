@@ -8,5 +8,5 @@ import com.expedia.sol.domain.Status;
 public interface IDBAccessor {
 
 	boolean save(Status status);
-	List<Status> getStatus(TimeInterval interval);
+	List<Status> getStatus(String name, TimeInterval interval);
 }

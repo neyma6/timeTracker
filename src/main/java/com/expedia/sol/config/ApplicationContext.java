@@ -7,9 +7,11 @@ import javax.sql.DataSource;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
@@ -23,9 +25,11 @@ import com.expedia.sol.domain.Status;
 @Configuration
 public class ApplicationContext {
 	
+	@Value("${db.dblocation}")
+	private String dbLocation;
+	
 	@Bean
 	public PropertyPlaceholderConfigurer propertyConfigurer() throws IOException {
-		System.out.println("placholdr");
 	    PropertyPlaceholderConfigurer props = new PropertyPlaceholderConfigurer();
 	    props.setLocations(new Resource[] {new ClassPathResource("config.properties")});
 	    return props;
@@ -40,8 +44,9 @@ public class ApplicationContext {
 	public DataSource getDataSource() {
 	    BasicDataSource dataSource = new BasicDataSource();
 	    dataSource.setDriverClassName("org.sqlite.JDBC");
-	    dataSource.setUrl("jdbc:sqlite:/Users/neyma/Projects/STS_Workplace/timeTracker/timetracker.db");//jdbc:mysql://localhost:3306/timetracker
-	    dataSource.setUsername("");//jdbc:sqlite:D:\\testdb.db
+	    System.out.println("db: " + dbLocation);
+	    dataSource.setUrl("jdbc:sqlite:/Users/neyma/Projects/STS_Workplace/timeTracker/timetracker.db");
+	    dataSource.setUsername("");
 	    dataSource.setPassword("");
 	 
 	    return dataSource;

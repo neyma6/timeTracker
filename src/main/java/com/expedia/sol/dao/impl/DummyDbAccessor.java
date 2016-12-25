@@ -15,7 +15,7 @@ public class DummyDbAccessor implements IDBAccessor {
 	}
 
 	@Override
-	public List<Status> getStatus(TimeInterval interval) {
+	public List<Status> getStatus(String name, TimeInterval interval) {
 		// TODO Auto-generated method stub
 		return null;
 	}

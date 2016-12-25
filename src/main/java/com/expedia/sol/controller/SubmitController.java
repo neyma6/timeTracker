@@ -1,10 +1,13 @@
 package com.expedia.sol.controller;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
 
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.expedia.sol.dao.IDBAccessor;
+import com.expedia.sol.domain.Report;
 import com.expedia.sol.domain.Status;
 
 @Controller
@@ -35,21 +39,27 @@ public class SubmitController implements InitializingBean {
 	private static List<String> names;
 	private static List<String> time;
 	
-	@RequestMapping(method = RequestMethod.GET)
-	public String get(Model model) {
-		
-		model.addAttribute("status", new Status());
+	
+	@ModelAttribute
+	public void fillModel(Model model) {
 		model.addAttribute("names", names);
 		model.addAttribute("time", time);
-		
+		if (!model.containsAttribute("status")) {
+			model.addAttribute("status", new Status());
+		}
+	}
+	
+	@RequestMapping(method = RequestMethod.GET)
+	public String get(Model model) {
 		return "submitForm";
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
 	public String post(@ModelAttribute("status") Status status, Model model) {
 		
-		System.out.println(status);
-		status.setNanotime(LocalTime.now().toNanoOfDay());
+		ZoneId zoneId = ZoneId.systemDefault();
+		long currentEpoch = LocalDate.now().atStartOfDay(zoneId).toEpochSecond();
+		status.setTimestamp(currentEpoch);
 		dbAccessor.save(status);
 		
 		return "submitForm";
