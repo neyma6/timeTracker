@@ -61,7 +61,13 @@ public class ListController implements InitializingBean{
 	@RequestMapping(method = RequestMethod.POST)
 	public String post(@ModelAttribute("report") Report report, Model model) {
 		
-		LocalDate sunday = LocalDate.now().with(next(SUNDAY));
+		LocalDate today = LocalDate.now();
+		LocalDate sunday;
+		if (today.getDayOfWeek().getValue() == 7) {
+			sunday = today;
+		} else {
+			sunday = today.with(next(SUNDAY));
+		}
 		
 		int daysBack = DAYS * report.getWeek();
 		LocalDate monday = sunday.minusDays(daysBack);
@@ -70,6 +76,9 @@ public class ListController implements InitializingBean{
 		ZoneId zoneId = ZoneId.systemDefault(); 
 		long mondayEpoch = monday.atStartOfDay(zoneId).toEpochSecond();
 		long sundayEpoch = nextSunday.atStartOfDay(zoneId).toEpochSecond();
+		
+		System.out.println(daysBack);
+		System.out.println(mondayEpoch + " " + sundayEpoch);
 		
 		TimeInterval interval = new TimeInterval(mondayEpoch, sundayEpoch);
 		
