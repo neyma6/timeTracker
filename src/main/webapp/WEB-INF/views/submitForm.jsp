@@ -4,32 +4,36 @@
 
 <html>
 <head>
-	<title>Home</title>
+	<title>Submit</title>
+	<link href="<c:url value="/resources/css/page.css" />" rel="stylesheet">
 </head>
 <body>
 
-<form:form class="form-horizontal" method="post"
-                modelAttribute="status" action="submit">
-   
-   <label>Resource</label>
-   <form:select path="name">
-    	<form:options items="${names}" />
-   </form:select>
-   <br/>
-   <label>Working Time</label>
-   <form:select path="time">
-    	<form:options items="${time}" />
-   </form:select>
-   
-   <br/>
-   <label>Description</label>
-   <form:input path="description" />
-         
-   <br/>      
-   <button type="submit">Submit</button>
-                
-</form:form>
+<%@include file="header/header.jsp" %>
 
+<div class="yellowBox">
+	<form:form class="form-horizontal" method="post"
+	                modelAttribute="status" action="submit">
+	   
+	   <label>Choose a person</label>
+	   <form:select path="name">
+	    	<form:options items="${names}" />
+	   </form:select>
+	   <br/>
+	   <label>How many hours did you work?</label>
+	   <form:select path="time">
+	    	<form:options items="${time}" />
+	   </form:select>
+	   
+	   <br/>
+	   <label>Please give some description about your work (Mingle/Jira links etc...)</label>
+	   <form:textarea path="description" rows="5" cols="100" />
+	         
+	   <br/>      
+	   <button type="submit">Submit</button>
+	                
+	</form:form>
+</div>
 
 </body>
 </html>

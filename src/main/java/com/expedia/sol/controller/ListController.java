@@ -20,6 +20,7 @@ import com.expedia.sol.dao.IDBAccessor;
 import com.expedia.sol.dao.domain.TimeInterval;
 import com.expedia.sol.domain.Report;
 import com.expedia.sol.domain.Status;
+import com.expedia.sol.util.DateFormatter;
 
 import static java.time.DayOfWeek.SUNDAY;
 import static java.time.DayOfWeek.MONDAY;
@@ -70,20 +71,20 @@ public class ListController implements InitializingBean{
 		}
 		
 		int daysBack = DAYS * report.getWeek();
-		LocalDate monday = sunday.minusDays(daysBack);
-		LocalDate nextSunday = monday.plusDays(DAYS);
+		LocalDate monday = sunday.minusDays(daysBack - 1);
+		LocalDate nextSunday = monday.plusDays(DAYS - 1);
 		
 		ZoneId zoneId = ZoneId.systemDefault(); 
 		long mondayEpoch = monday.atStartOfDay(zoneId).toEpochSecond();
 		long sundayEpoch = nextSunday.atStartOfDay(zoneId).toEpochSecond();
 		
-		System.out.println(daysBack);
-		System.out.println(mondayEpoch + " " + sundayEpoch);
-		
 		TimeInterval interval = new TimeInterval(mondayEpoch, sundayEpoch);
 		
 		List<Status> statuses = dbAccessor.getStatus(report.getName(), interval);
 		model.addAttribute("statuses", statuses);
+		model.addAttribute("workingHours", calculateWorkingHours(statuses));
+		model.addAttribute("start", DateFormatter.formateTimeStampToDate(interval.getStart()));
+		model.addAttribute("end", DateFormatter.formateTimeStampToDate(interval.getEnd()));
 		
 		return "list";
 	}
@@ -97,5 +98,15 @@ public class ListController implements InitializingBean{
 		String[] splitTime = weeks.split(",");
 		week = Arrays.asList(splitTime);
 		
+	}
+	
+	private double calculateWorkingHours(List<Status> list) {
+		double workingHours = 0d;
+		
+		for (Status status : list) {
+			workingHours += Double.parseDouble(status.getTime());
+		}
+		
+		return workingHours;
 	}
 }

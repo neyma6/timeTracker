@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "STATUS")
@@ -26,6 +27,9 @@ public class Status {
 	
 	@Column(name = "timestamp")
 	private long timestamp;
+	
+	@Transient
+	private String displayDate;
 
 	public String getName() {
 		return name;
@@ -57,6 +61,14 @@ public class Status {
 	}
 	public void setId(int id) {
 		this.id = id;
+	}
+	
+	
+	public String getDisplayDate() {
+		return displayDate;
+	}
+	public void setDisplayDate(String displayDate) {
+		this.displayDate = displayDate;
 	}
 	@Override
 	public String toString() {

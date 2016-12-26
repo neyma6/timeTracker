@@ -1,7 +1,10 @@
 package com.expedia.sol.dao.impl;
 
 import java.lang.reflect.Constructor;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -13,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.expedia.sol.dao.IDBAccessor;
 import com.expedia.sol.dao.domain.TimeInterval;
 import com.expedia.sol.domain.Status;
+import com.expedia.sol.util.DateFormatter;
 
 public class HibernateDbAccessor implements IDBAccessor {
 
@@ -30,9 +34,11 @@ public class HibernateDbAccessor implements IDBAccessor {
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public List<Status> getStatus(String name, TimeInterval interval) {
 		Session session = sessionFactory.openSession();
 		System.out.println(interval.getStart() + " " + interval.getEnd());
+		
 		List<List<Object>> result = session.createQuery("select s.id, s.name, s.description, s.time, s.timestamp from Status as s where s.name = :name and s.timestamp between :start and :end")
 			.setParameter("start", interval.getStart())
 			.setParameter("end", interval.getEnd())
@@ -48,7 +54,8 @@ public class HibernateDbAccessor implements IDBAccessor {
 			status.setName((String)list.get(1));
 			status.setDescription((String)list.get(2));
 			status.setTime((String)list.get(3));
-			status.setTimestamp((Long)list.get(4));
+			status.setDisplayDate(DateFormatter.formateTimeStampToDate((long)list.get(4)));
+			
 			statuses.add(status);
 		}
 		return statuses;

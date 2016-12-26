@@ -1,0 +1,47 @@
+ul li{
+  display: inline;
+}
+
+table {
+    border-collapse: collapse;
+    width: 80%;
+    margin: auto;
+}
+
+th, td {
+	width: 20%;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+th {
+    height: 50px;
+}
+
+label {
+	//padding: 10px 20px 10px 20px;
+	display: inherit;
+}
+
+button {
+	padding: 5px 20px 5px 20px;
+}
+
+select, input, textarea, label, button {
+	margin: 10px 5px 0px 5px;
+}
+
+.yellowBox {
+	background: yellow;
+	//display: inline-block;
+	//border: 1px solid black;
+	
+	margin: auto;
+	margin-top: 10px;
+    width: 50%;
+    border: 3px solid green;
+    padding: 10px;
+}
+
