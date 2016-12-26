@@ -25,12 +25,17 @@ public class HibernateDbAccessor implements IDBAccessor {
 	
 	@Override
 	public boolean save(Status status) {
-		Session session = sessionFactory.openSession();
-		Transaction tx = session.beginTransaction();
-		session.save(status);
-		tx.commit();
-		session.close();
-		return false;
+		boolean success = true;
+		try {
+			Session session = sessionFactory.openSession();
+			Transaction tx = session.beginTransaction();
+			session.save(status);
+			tx.commit();
+			session.close();
+		} catch(Exception ex) {
+			success = false;
+		}
+		return success;
 	}
 
 	@Override

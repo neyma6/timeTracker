@@ -60,8 +60,9 @@ public class SubmitController implements InitializingBean {
 		ZoneId zoneId = ZoneId.systemDefault();
 		long currentEpoch = LocalDate.now().atStartOfDay(zoneId).toEpochSecond();
 		status.setTimestamp(currentEpoch);
-		dbAccessor.save(status);
+		boolean success = dbAccessor.save(status);
 		
+		model.addAttribute("success", success);
 		return "submitForm";
 	}
 

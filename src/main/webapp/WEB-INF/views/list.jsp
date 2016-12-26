@@ -39,11 +39,15 @@
 	</div>
 </c:if>
 
+<c:if test="${statuses != null && statuses.size() > 0}">
+	<div class="yellowBox">
+		Working hours in this week: ${workingHours}
+	</div>
+</c:if>
 
 <c:if test="${statuses != null && statuses.size() > 0}">
 	<table class="yellowBox">
 	    <tr>
-	        <th>ID</th>
 	        <th>Name</th>
 	        <th>Time</th>
 	        <th>Description</th>
@@ -51,7 +55,6 @@
 	    </tr>
 	    <c:forEach items="${statuses}" var="status">
 	        <tr>
-	            <td>${status.id}</td>
 	            <td>${status.name}</td>
 	            <td>${status.time}</td>
 	            <td>${status.description}</td>
@@ -67,11 +70,6 @@
 	</div>
 </c:if>
 
-<c:if test="${statuses != null && statuses.size() > 0}">
-	<div class="yellowBox">
-		Working hours in this week: ${workingHours}
-	</div>
-</c:if>
 
 </body>
 </html>
