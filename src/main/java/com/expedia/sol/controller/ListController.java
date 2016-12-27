@@ -1,7 +1,5 @@
 package com.expedia.sol.controller;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -18,20 +16,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.expedia.sol.dao.IDBAccessor;
 import com.expedia.sol.dao.domain.TimeInterval;
+import com.expedia.sol.dao.util.TimeIntervalUtil;
 import com.expedia.sol.domain.Report;
 import com.expedia.sol.domain.Status;
 import com.expedia.sol.util.DateFormatter;
-
-import static java.time.DayOfWeek.SUNDAY;
-import static java.time.DayOfWeek.MONDAY;
-import static java.time.temporal.TemporalAdjusters.next;
-import static java.time.temporal.TemporalAdjusters.previous;
 
 @Controller
 @RequestMapping("/list")
 public class ListController implements InitializingBean{
 
-	private static final int DAYS = 7;
 	
 	@Value("${names.list}")
 	private String namesList;
@@ -56,36 +49,23 @@ public class ListController implements InitializingBean{
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public String get() {
-		return "list";
+		return getRedirectString();
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
 	public String post(@ModelAttribute("report") Report report, Model model) {
 		
-		LocalDate today = LocalDate.now();
-		LocalDate sunday;
-		if (today.getDayOfWeek().getValue() == 7) {
-			sunday = today;
-		} else {
-			sunday = today.with(next(SUNDAY));
-		}
-		
-		int daysBack = DAYS * report.getWeek();
-		LocalDate monday = sunday.minusDays(daysBack - 1);
-		LocalDate nextSunday = monday.plusDays(DAYS - 1);
-		
-		ZoneId zoneId = ZoneId.systemDefault(); 
-		long mondayEpoch = monday.atStartOfDay(zoneId).toEpochSecond();
-		long sundayEpoch = nextSunday.atStartOfDay(zoneId).toEpochSecond();
-		
-		TimeInterval interval = new TimeInterval(mondayEpoch, sundayEpoch);
-		
+		TimeInterval interval = TimeIntervalUtil.getTimeInterval(report.getWeek());		
 		List<Status> statuses = dbAccessor.getStatus(report.getName(), interval);
 		model.addAttribute("statuses", statuses);
 		model.addAttribute("workingHours", calculateWorkingHours(statuses));
 		model.addAttribute("start", DateFormatter.formateTimeStampToDate(interval.getStart()));
 		model.addAttribute("end", DateFormatter.formateTimeStampToDate(interval.getEnd()));
 		
+		return getRedirectString();
+	}
+	
+	protected String getRedirectString() {
 		return "list";
 	}
 

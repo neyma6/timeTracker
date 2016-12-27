@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -20,6 +21,10 @@ import com.expedia.sol.util.DateFormatter;
 
 public class HibernateDbAccessor implements IDBAccessor {
 
+	private static final String SELECT_STATUS_WITH_NAME = "select s.id, s.name, s.description, s.time, s.timestamp from Status as s where s.name = :name and s.timestamp between :start and :end";
+	
+	private static final String SELECT_STATUS_WITHOUT_NAME = "select s.id, s.name, s.description, s.time, s.timestamp from Status as s where s.timestamp between :start and :end";
+	
 	@Autowired
 	private SessionFactory sessionFactory;
 	
@@ -44,12 +49,20 @@ public class HibernateDbAccessor implements IDBAccessor {
 		Session session = sessionFactory.openSession();
 		System.out.println(interval.getStart() + " " + interval.getEnd());
 		
-		List<List<Object>> result = session.createQuery("select s.id, s.name, s.description, s.time, s.timestamp from Status as s where s.name = :name and s.timestamp between :start and :end")
-			.setParameter("start", interval.getStart())
-			.setParameter("end", interval.getEnd())
-			.setParameter("name", name)
-			.setResultTransformer(Transformers.TO_LIST)
-			.list();
+		String query;
+		if (name != null) {
+			query = SELECT_STATUS_WITH_NAME;
+		} else {
+			query = SELECT_STATUS_WITHOUT_NAME;
+		}
+		
+		Query hibernateQuery = createQuery(session, query, interval);
+		
+		if (name != null) {
+			hibernateQuery = hibernateQuery.setParameter("name", name);
+		}
+		
+		List<List<Object>> result = hibernateQuery.list();
 		
 		session.close();
 		List<Status> statuses = new ArrayList<>();
@@ -64,6 +77,13 @@ public class HibernateDbAccessor implements IDBAccessor {
 			statuses.add(status);
 		}
 		return statuses;
+	}
+	
+	private Query createQuery(Session session, String query, TimeInterval interval) {
+		return session.createQuery(query)
+				.setParameter("start", interval.getStart())
+				.setParameter("end", interval.getEnd())
+				.setResultTransformer(Transformers.TO_LIST);
 	}
 	
 	public static <T> T map(Class<T> type, Object[] tuple){
