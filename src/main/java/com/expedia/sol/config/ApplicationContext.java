@@ -11,16 +11,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
 
 import com.expedia.sol.dao.IDBAccessor;
-import com.expedia.sol.dao.impl.DummyDbAccessor;
 import com.expedia.sol.dao.impl.HibernateDbAccessor;
 import com.expedia.sol.domain.Status;
+import com.expedia.sol.provider.PropertyProvider;
 
 @Configuration
 public class ApplicationContext {
@@ -38,6 +37,11 @@ public class ApplicationContext {
 	@Bean(name = "hibernateDBAccessor")
 	public IDBAccessor getDummyAccessor() {
 		return new HibernateDbAccessor();
+	}
+	
+	@Bean
+	public PropertyProvider getPropertyProvider() {
+		return new PropertyProvider();
 	}
 	
 	@Bean(name = "dataSource")

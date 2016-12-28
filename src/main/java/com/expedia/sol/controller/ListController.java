@@ -1,13 +1,10 @@
 package com.expedia.sol.controller;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -19,29 +16,23 @@ import com.expedia.sol.dao.domain.TimeInterval;
 import com.expedia.sol.dao.util.TimeIntervalUtil;
 import com.expedia.sol.domain.Report;
 import com.expedia.sol.domain.Status;
+import com.expedia.sol.provider.PropertyProvider;
 import com.expedia.sol.util.DateFormatter;
 
 @Controller
 @RequestMapping("/list")
-public class ListController implements InitializingBean{
-
+public class ListController {
 	
-	@Value("${names.list}")
-	private String namesList;
-	
-	@Value("${report.week}")
-	private String weeks;
+	@Autowired
+	private PropertyProvider propertyProvider;
 	
 	@Resource(name = "hibernateDBAccessor")
 	private IDBAccessor dbAccessor;
 	
-	private static List<String> names;
-	private static List<String> week;
-	
 	@ModelAttribute
 	public void fillModel(Model model) {
-		model.addAttribute("names", names);
-		model.addAttribute("weeks", week);
+		model.addAttribute("names", propertyProvider.getNames());
+		model.addAttribute("weeks", propertyProvider.getWeek());
 		if (!model.containsAttribute("report")) {
 			model.addAttribute("report", new Report());
 		}
@@ -67,17 +58,6 @@ public class ListController implements InitializingBean{
 	
 	protected String getRedirectString() {
 		return "list";
-	}
-
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		String[] split = namesList.split(",");
-		names = Arrays.asList(split);
-		Collections.sort(names);
-		
-		String[] splitTime = weeks.split(",");
-		week = Arrays.asList(splitTime);
-		
 	}
 	
 	private double calculateWorkingHours(List<Status> list) {

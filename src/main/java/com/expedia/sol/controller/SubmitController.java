@@ -1,17 +1,15 @@
 package com.expedia.sol.controller;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,30 +18,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.expedia.sol.dao.IDBAccessor;
-import com.expedia.sol.domain.Report;
 import com.expedia.sol.domain.Status;
+import com.expedia.sol.provider.PropertyProvider;
 
 @Controller
 @RequestMapping("/submit")
-public class SubmitController implements InitializingBean {
+public class SubmitController {
 
-	@Value("${names.list}")
-	private String namesList;
-	
-	@Value("${time.values}")
-	private String timeList;
+	@Autowired
+	private PropertyProvider propertyProvider;
 	
 	@Resource(name = "hibernateDBAccessor")
 	private IDBAccessor dbAccessor;
 	
-	private static List<String> names;
-	private static List<String> time;
-	
 	
 	@ModelAttribute
 	public void fillModel(Model model) {
-		model.addAttribute("names", names);
-		model.addAttribute("time", time);
+		model.addAttribute("names", propertyProvider.getNames());
+		model.addAttribute("time", propertyProvider.getTime());
+		model.addAttribute("task", propertyProvider.getTask());
 		if (!model.containsAttribute("status")) {
 			model.addAttribute("status", new Status());
 		}
@@ -64,15 +57,5 @@ public class SubmitController implements InitializingBean {
 		
 		model.addAttribute("success", success);
 		return "submitForm";
-	}
-
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		String[] split = namesList.split(",");
-		names = Arrays.asList(split);
-		Collections.sort(names);
-		
-		String[] splitTime = timeList.split(",");
-		time = Arrays.asList(splitTime);
 	}
 }

@@ -52,6 +52,8 @@
 	        <th>Time</th>
 	        <th>Description</th>
 	        <th>Date</th>
+	        <th>Modify</th>
+	        <th>Delete</th>
 	    </tr>
 	    <c:forEach items="${statuses}" var="status">
 	        <tr>
@@ -59,6 +61,18 @@
 	            <td>${status.time}</td>
 	            <td>${status.description}</td>
 	            <td>${status.displayDate}</td>
+	            <td>
+	            	<form action="modify">
+	            		<input type="hidden" name="id" value="${status.id}">
+	            		<input type="submit" value="Modify">
+	            	</form>
+	            </td>
+	            <td>
+	            	<form action="delete">
+	            		<input type="hidden" name="id" value="${status.id}">
+	            		<input type="submit" value="Delete">
+	            	</form>
+	            </td>
 	        </tr>
 	    </c:forEach>
 	</table>

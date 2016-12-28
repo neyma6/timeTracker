@@ -40,8 +40,10 @@
 		   </form:select>
 		   
 		   <br/>
-		   <label>Please give some description about your work (Mingle/Jira links etc...)</label>
-		   <form:textarea path="description" rows="5" cols="100" />
+		   <label>Select an activity</label>
+		   <form:select path="description">
+		    	<form:options items="${task}" />
+		   </form:select>
 		         
 		   <br/>      
 		   <button type="submit">Submit</button>
