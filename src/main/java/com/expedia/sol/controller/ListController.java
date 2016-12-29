@@ -7,6 +7,8 @@ import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,6 +31,9 @@ public class ListController {
 	@Resource(name = "hibernateDBAccessor")
 	private IDBAccessor dbAccessor;
 	
+	@Resource(name = "reportValidator")
+	private Validator validator;
+	
 	@ModelAttribute
 	public void fillModel(Model model) {
 		model.addAttribute("names", propertyProvider.getNames());
@@ -44,7 +49,14 @@ public class ListController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
-	public String post(@ModelAttribute("report") Report report, Model model) {
+	public String post(@ModelAttribute("report") Report report, Model model, BindingResult result) {
+		
+		validator.validate(report, result);
+		
+		if (result.hasErrors()) {
+			model.addAttribute("validationError", true);
+			return getRedirectString();
+		}
 		
 		TimeInterval interval = TimeIntervalUtil.getTimeInterval(report.getWeek());		
 		List<Status> statuses = dbAccessor.getStatus(report.getName(), interval);

@@ -11,12 +11,6 @@
 
 <%@include file="header/header.jsp" %>
 
-<c:if test="${validationError != null}">
-	<div class="yellowBox">
-		Validation failed, invalid request was sent to server!
-	</div>
-</c:if>
-
 <c:if test="${success != null}">
 	<div class="yellowBox">
 		<c:choose>		
@@ -30,15 +24,18 @@
 	</div>
 </c:if>
 
-<c:if test="${status != null && validationError == null}">
+<c:if test="${success == null}">
 	<div class="yellowBox">
 		<form:form class="form-horizontal" method="post"
 		                modelAttribute="status" action="submit">
 		   
-		   <label>Choose a person</label>
+		   <label>Select a person</label>
 		   <form:select path="name">
-		    	<form:options items="${names}" />
-		   </form:select>
+		   		<form:option value="select" label="--- Select ---"/>
+		   		<c:forEach items="${names}" var="name1">
+		    		<form:option value="${name1}"/>
+		    	</c:forEach>
+		   </form:select>	 
 		   <br/>
 		   <label>How many hours did you work?</label>
 		   <form:select path="time">
@@ -55,6 +52,12 @@
 		   <button type="submit">Submit</button>
 		                
 		</form:form>
+	</div>
+</c:if>
+
+<c:if test="${validationError != null}">
+	<div class="yellowBox">
+		Validation failed, invalid request was sent to server! Maybe you didn't select any person...
 	</div>
 </c:if>
 

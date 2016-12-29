@@ -21,6 +21,7 @@ import com.expedia.sol.dao.IDBAccessor;
 import com.expedia.sol.dao.impl.HibernateDbAccessor;
 import com.expedia.sol.domain.Status;
 import com.expedia.sol.provider.PropertyProvider;
+import com.expedia.sol.validator.ReportValidator;
 import com.expedia.sol.validator.StatusValidator;
 
 @Configuration
@@ -70,8 +71,13 @@ public class ApplicationContext {
 	}
 	
 	@Bean(name = "statusValidator")
-	public Validator getValidator() {
+	public Validator geStatustValidator() {
 		return new StatusValidator();
+	}
+	
+	@Bean(name = "reportValidator")
+	public Validator getReportValidator() {
+		return new ReportValidator();
 	}
 	
 	//@Bean(name = "transactionManager")

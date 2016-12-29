@@ -5,8 +5,11 @@ import static java.time.temporal.TemporalAdjusters.next;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.expedia.sol.dao.domain.TimeInterval;
+import com.expedia.sol.util.DateFormatter;
 
 public class TimeIntervalUtil {
 
@@ -31,5 +34,17 @@ public class TimeIntervalUtil {
 		long sundayEpoch = nextSunday.atStartOfDay(zoneId).toEpochSecond();
 		
 		return new TimeInterval(mondayEpoch, sundayEpoch);
+	}
+	
+	public static List<String> getDisplayableTimeIntervalList(int numberOfWeeks) {
+		List<String> weeks = new ArrayList<>();
+		
+		for (int i = 0; i < numberOfWeeks; i++) {
+			TimeInterval interval = getTimeInterval(i + 1);
+			weeks.add(DateFormatter.formateTimeStampToDate(interval.getStart()) + " - " 
+			+ DateFormatter.formateTimeStampToDate(interval.getEnd()));
+		}
+		
+		return weeks;
 	}
 }

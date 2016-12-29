@@ -31,11 +31,16 @@ public class SubmitController {
 	@Resource(name = "statusValidator")
 	private Validator validator;
 	
-	@RequestMapping(method = RequestMethod.GET)
-	public String get(Model model) {
+	@ModelAttribute
+	public void fill(Model model) {
 		model.addAttribute("names", propertyProvider.getNames());
 		model.addAttribute("time", propertyProvider.getTime());
 		model.addAttribute("task", propertyProvider.getTask());
+	}
+	
+	@RequestMapping(method = RequestMethod.GET)
+	public String get(Model model) {
+		
 		model.addAttribute("status", new Status());
 		return "submitForm";
 	}
@@ -51,6 +56,7 @@ public class SubmitController {
 		
 		if (result.hasErrors()) {
 			model.addAttribute("validationError", true);
+			model.addAttribute("status", status);
 			return "submitForm";
 		}
 		

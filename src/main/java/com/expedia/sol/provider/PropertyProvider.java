@@ -7,6 +7,8 @@ import java.util.List;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 
+import com.expedia.sol.dao.util.TimeIntervalUtil;
+
 public class PropertyProvider implements InitializingBean {
 
 	@Value("${names.list}")
@@ -23,7 +25,6 @@ public class PropertyProvider implements InitializingBean {
 	
 	private List<String> names;
 	private List<String> time;
-	private List<String> week;
 	private List<String> task;
 	
 	public List<String> getNames() {
@@ -35,7 +36,11 @@ public class PropertyProvider implements InitializingBean {
 	}
 
 	public List<String> getWeek() {
-		return week;
+		return TimeIntervalUtil.getDisplayableTimeIntervalList(Integer.parseInt(weeks));
+	}
+	
+	public int getNumberOfWeeks() {
+		return Integer.parseInt(weeks);
 	}
 	
 	public List<String> getTask() {
@@ -50,9 +55,6 @@ public class PropertyProvider implements InitializingBean {
 		
 		String[] splitTime = timeList.split(",");
 		time = Arrays.asList(splitTime);
-		
-		String[] splitWeek = weeks.split(",");
-		week = Arrays.asList(splitWeek);
 		
 		String[] splitTask = taskList.split(",");
 		task = Arrays.asList(splitTask);

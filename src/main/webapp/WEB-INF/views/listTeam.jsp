@@ -16,10 +16,12 @@
 	<form:form class="form-horizontal" method="post"
 	                modelAttribute="report" action="listTeam">
 	 
-	   <label>Select which week would like to query. (1 - this week, 2 - prev week...)</label>
+	   <label>Select which week would like to query</label>
 	   <form:select path="week">
-	    	<form:options items="${weeks}" />
-	   </form:select>
+		   		<c:forEach items="${weeks}" var="week1" varStatus="loop">
+		    		<form:option value="${loop.index + 1}" label="${week1}"/>
+		    	</c:forEach>
+		</form:select>	 
 	 
 	         
 	   <br/>      
@@ -27,6 +29,12 @@
 	                
 	</form:form>
 </div>
+
+<c:if test="${validationError != null}">
+	<div class="yellowBox">
+		Validation failed, invalid request was sent to server! Maybe you didn't select a person...
+	</div>
+</c:if>
 
 <c:if test="${start != null}">
 	<div class="yellowBox">

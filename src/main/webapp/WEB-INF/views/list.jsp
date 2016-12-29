@@ -16,22 +16,33 @@
 	<form:form class="form-horizontal" method="post"
 	                modelAttribute="report" action="list">
 	   
-	   <label>Choose a person</label>
+	   <label>Select a person</label>
 	   <form:select path="name">
-	    	<form:options items="${names}" />
-	   </form:select>
+		   		<form:option value="select" label="--- Select ---"/>
+		   		<c:forEach items="${names}" var="name1">
+		    		<form:option value="${name1}"/>
+		    	</c:forEach>
+	   </form:select>	
 	   <br/>
-	   <label>Select which week would like to query. (1 - this week, 2 - prev week...)</label>
-	   <form:select path="week">
-	    	<form:options items="${weeks}" />
-	   </form:select>
+	   <label>Select which week would like to query</label>
 	 
+		<form:select path="week">
+		   		<c:forEach items="${weeks}" var="week1" varStatus="loop">
+		    		<form:option value="${loop.index + 1}" label="${week1}"/>
+		    	</c:forEach>
+		</form:select>	 
 	         
 	   <br/>      
 	   <button type="submit">List</button>
 	                
 	</form:form>
 </div>
+
+<c:if test="${validationError != null}">
+	<div class="yellowBox">
+		Validation failed, invalid request was sent to server! Maybe you didn't select any person...
+	</div>
+</c:if>
 
 <c:if test="${start != null}">
 	<div class="yellowBox">
