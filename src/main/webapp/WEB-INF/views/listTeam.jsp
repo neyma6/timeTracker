@@ -5,7 +5,7 @@
 
 <html>
 <head>
-	<title>List</title>
+	<title>List Team</title>
 	<link href="<c:url value="/resources/css/page.css" />" rel="stylesheet">
 </head>
 <body>
