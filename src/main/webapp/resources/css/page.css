@@ -49,6 +49,9 @@ th {
     height: 50px;
 }
 
+td { text-align: center; }
+td * { display: inline; }
+
 label {
 	//padding: 10px 20px 10px 20px;
 	display: inherit;
@@ -59,7 +62,7 @@ button {
 }
 
 select, input, textarea, label, button {
-	margin: 10px 5px 0px 5px;
+	margin: 5px 5px 5px 5px;
 }
 
 .yellowBox {
@@ -73,4 +76,5 @@ select, input, textarea, label, button {
     border: 3px solid green;
     padding: 10px;
 }
+
 

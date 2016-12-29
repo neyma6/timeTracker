@@ -24,6 +24,8 @@ public class DeleteController {
 		Status status = dbAccessor.getStatusById(Integer.parseInt(id));
 		
 		if (status == null) {
+			model.addAttribute("nodata", true);
+			return "delete";
 			// TODO redirect
 		}
 		

@@ -12,6 +12,11 @@
 
 <%@include file="header/header.jsp" %>
 
+<c:if test="${nodata != null}">
+	<div class="yellowBox">
+		You can't delete this item, item doesn't exist.
+	</div>
+</c:if>
 
 <c:if test="${status != null}">
 	<table class="yellowBox">
@@ -31,13 +36,15 @@
 	
 	<div class="yellowBox">
 		Do you really want to delete this item?
-		<form action="delete" method="post">
-		      <input type="hidden" name="id" value="${status.id}">
-		      <input type="submit" value="Delete">
-		</form>
-		<form action="list">
-		      <input type="submit" value="Cancel">
-		</form>
+		<div style="display: inline-flex">
+			<form action="delete" method="post">
+			      <input type="hidden" name="id" value="${status.id}">
+			      <input type="submit" value="Delete">
+			</form>
+			<form action="list">
+			      <input type="submit" value="Cancel">
+			</form>
+		</div>
 	</div>
 </c:if>
 
