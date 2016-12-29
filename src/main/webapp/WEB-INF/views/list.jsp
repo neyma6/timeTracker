@@ -28,7 +28,7 @@
 	 
 	         
 	   <br/>      
-	   <button type="submit">Submit</button>
+	   <button type="submit">List</button>
 	                
 	</form:form>
 </div>

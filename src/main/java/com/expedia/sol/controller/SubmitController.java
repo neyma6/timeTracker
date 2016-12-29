@@ -31,19 +31,12 @@ public class SubmitController {
 	@Resource(name = "hibernateDBAccessor")
 	private IDBAccessor dbAccessor;
 	
-	
-	@ModelAttribute
-	public void fillModel(Model model) {
+	@RequestMapping(method = RequestMethod.GET)
+	public String get(Model model) {
 		model.addAttribute("names", propertyProvider.getNames());
 		model.addAttribute("time", propertyProvider.getTime());
 		model.addAttribute("task", propertyProvider.getTask());
-		if (!model.containsAttribute("status")) {
-			model.addAttribute("status", new Status());
-		}
-	}
-	
-	@RequestMapping(method = RequestMethod.GET)
-	public String get(Model model) {
+		model.addAttribute("status", new Status());
 		return "submitForm";
 	}
 	

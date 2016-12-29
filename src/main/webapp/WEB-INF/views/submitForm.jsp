@@ -15,10 +15,10 @@
 	<div class="yellowBox">
 		<c:choose>		
 				<c:when test="${success == true}">
-					Your status was recorded!
+					Your task was recorded!
 				</c:when>
 				<c:otherwise>
-					There was a problem while saving your status!
+					There was a problem while saving your task!
 				</c:otherwise>
 		</c:choose>
 	</div>

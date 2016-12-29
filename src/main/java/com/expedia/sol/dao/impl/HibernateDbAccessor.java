@@ -28,14 +28,23 @@ public class HibernateDbAccessor implements IDBAccessor {
 	@Override
 	public boolean save(Status status) {
 		boolean success = true;
+		Session session = null;
+		Transaction tx = null;
 		try {
-			Session session = sessionFactory.openSession();
-			Transaction tx = session.beginTransaction();
+			session = sessionFactory.openSession();
+			tx = session.beginTransaction();
 			session.save(status);
-			tx.commit();
-			session.close();
 		} catch(Exception ex) {
+			ex.printStackTrace();
 			success = false;
+		} finally {
+			try {
+				tx.commit();
+				session.close();
+			} catch(Exception ex) {
+				ex.printStackTrace();
+				success = false;
+			}
 		}
 		return success;
 	}
@@ -89,8 +98,26 @@ public class HibernateDbAccessor implements IDBAccessor {
 	
 	@Override
 	public boolean update(Status status) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean success = true;
+		Session session = null;
+		Transaction tx = null;
+		try {
+			session = sessionFactory.openSession();
+			tx = session.beginTransaction();
+			session.update(status);
+		} catch(Exception ex) {
+			ex.printStackTrace();
+			success = false;
+		} finally {
+			try {
+				tx.commit();
+				session.close();
+			} catch(Exception ex) {
+				ex.printStackTrace();
+				success = false;
+			}
+		}
+		return success;
 	}
 
 	@Override
