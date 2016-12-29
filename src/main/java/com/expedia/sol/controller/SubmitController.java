@@ -2,17 +2,14 @@ package com.expedia.sol.controller;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,6 +28,9 @@ public class SubmitController {
 	@Resource(name = "hibernateDBAccessor")
 	private IDBAccessor dbAccessor;
 	
+	@Resource(name = "statusValidator")
+	private Validator validator;
+	
 	@RequestMapping(method = RequestMethod.GET)
 	public String get(Model model) {
 		model.addAttribute("names", propertyProvider.getNames());
@@ -41,11 +41,19 @@ public class SubmitController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
-	public String post(@ModelAttribute("status") Status status, Model model) {
+	public String post(@ModelAttribute("status") Status status, Model model, BindingResult result) {
 		
 		ZoneId zoneId = ZoneId.systemDefault();
 		long currentEpoch = LocalDate.now().atStartOfDay(zoneId).toEpochSecond();
 		status.setTimestamp(currentEpoch);
+		
+		validator.validate(status, result);
+		
+		if (result.hasErrors()) {
+			model.addAttribute("validationError", true);
+			return "submitForm";
+		}
+		
 		boolean success = dbAccessor.save(status);
 		
 		model.addAttribute("success", success);

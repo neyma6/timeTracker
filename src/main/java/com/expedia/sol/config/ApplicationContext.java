@@ -15,11 +15,13 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
+import org.springframework.validation.Validator;
 
 import com.expedia.sol.dao.IDBAccessor;
 import com.expedia.sol.dao.impl.HibernateDbAccessor;
 import com.expedia.sol.domain.Status;
 import com.expedia.sol.provider.PropertyProvider;
+import com.expedia.sol.validator.StatusValidator;
 
 @Configuration
 public class ApplicationContext {
@@ -65,6 +67,11 @@ public class ApplicationContext {
 	    sessionBuilder.addProperties(getHibernateProperties());
 	 
 	    return sessionBuilder.buildSessionFactory();
+	}
+	
+	@Bean(name = "statusValidator")
+	public Validator getValidator() {
+		return new StatusValidator();
 	}
 	
 	//@Bean(name = "transactionManager")

@@ -11,6 +11,12 @@
 
 <%@include file="header/header.jsp" %>
 
+<c:if test="${validationError != null}">
+	<div class="yellowBox">
+		Validation failed, invalid request was sent to server!
+	</div>
+</c:if>
+
 <c:if test="${success != null}">
 	<div class="yellowBox">
 		<c:choose>		
@@ -24,7 +30,7 @@
 	</div>
 </c:if>
 
-<c:if test="${success == null}">
+<c:if test="${status != null && validationError == null}">
 	<div class="yellowBox">
 		<form:form class="form-horizontal" method="post"
 		                modelAttribute="status" action="submit">
