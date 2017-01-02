@@ -51,8 +51,9 @@ public class ApplicationContext {
 	public DataSource getDataSource() {
 	    BasicDataSource dataSource = new BasicDataSource();
 	    dataSource.setDriverClassName("org.sqlite.JDBC");
-	    System.out.println("db: " + dbLocation);
-	    dataSource.setUrl("jdbc:sqlite:/Users/neyma/Projects/STS_Workplace/timeTracker/timetracker.db");
+	    String workingDir = System.getProperty("user.dir");
+	    System.out.println("db: " + workingDir);
+	    dataSource.setUrl("jdbc:sqlite:"+ workingDir +"/timetracker.db");
 	    dataSource.setUsername("");
 	    dataSource.setPassword("");
 	 
