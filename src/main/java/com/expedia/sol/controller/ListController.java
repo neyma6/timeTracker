@@ -1,6 +1,8 @@
 package com.expedia.sol.controller;
 
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import javax.annotation.Resource;
 
@@ -65,11 +67,30 @@ public class ListController {
 		model.addAttribute("start", DateFormatter.formateTimeStampToDate(interval.getStart()));
 		model.addAttribute("end", DateFormatter.formateTimeStampToDate(interval.getEnd()));
 		
+		addWorkingHoursChartData(statuses, model);
+		
 		return getRedirectString();
 	}
 	
 	protected String getRedirectString() {
 		return "list";
+	}
+	
+	private void addWorkingHoursChartData(List<Status> statuses, Model model) {
+		Map<String, Double> activityWithHours = new TreeMap<>();
+		
+		for (Status status : statuses) {
+			if (activityWithHours.containsKey(status.getDescription())) {
+				Double hour = activityWithHours.get(status.getDescription());
+				hour += Double.valueOf(status.getTime());
+				activityWithHours.put(status.getDescription(), hour);
+			} else {
+				activityWithHours.put(status.getDescription(), Double.valueOf(status.getTime()));
+			}
+		}
+		
+		model.addAttribute("activityWithHours", activityWithHours);
+		
 	}
 	
 	private double calculateWorkingHours(List<Status> list) {

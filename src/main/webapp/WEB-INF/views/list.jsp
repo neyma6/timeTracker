@@ -57,6 +57,15 @@
 </c:if>
 
 <c:if test="${statuses != null && statuses.size() > 0}">
+
+	<div class="yellowBox">
+		<ul>
+			<c:forEach items="${activityWithHours}" var="entry">
+				<li>${entry.key}: <strong>${entry.value}</strong> hour(s) </li>
+			</c:forEach>
+		</ul>
+	</div>
+
 	<table class="yellowBox">
 	    <tr>
 	        <th>Name</th>
