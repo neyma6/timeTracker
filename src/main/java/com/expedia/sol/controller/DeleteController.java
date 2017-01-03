@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.expedia.sol.dao.IDBAccessor;
-import com.expedia.sol.dao.impl.ListStatusRequest;
+import com.expedia.sol.dao.request.ListStatusRequest;
 import com.expedia.sol.domain.Status;
 
 @Controller
@@ -22,7 +22,7 @@ public class DeleteController {
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public String get(@RequestParam("id") String id, Model model) {
-		Status status = dbAccessor.getById(Integer.parseInt(id));
+		Status status = dbAccessor.getById(new ListStatusRequest(Integer.parseInt(id)));
 		
 		if (status == null) {
 			model.addAttribute("nodata", true);
@@ -37,7 +37,7 @@ public class DeleteController {
 	@RequestMapping(method = RequestMethod.POST) 
 	public String post(@RequestParam("id") String id, Model model) {
 		
-		boolean success = dbAccessor.delete(Integer.parseInt(id));
+		boolean success = dbAccessor.delete(new ListStatusRequest(Integer.parseInt(id)));
 		model.addAttribute("success", success);
 		
 		return "delete";

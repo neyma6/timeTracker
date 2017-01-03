@@ -20,12 +20,8 @@ public class PropertyProvider implements InitializingBean {
 	@Value("${report.week}")
 	private String weeks;
 	
-	@Value("${status.task}")
-	private String taskList;
-	
 	private List<String> names;
 	private List<String> time;
-	private List<String> task;
 	
 	public List<String> getNames() {
 		return names;
@@ -43,9 +39,6 @@ public class PropertyProvider implements InitializingBean {
 		return Integer.parseInt(weeks);
 	}
 	
-	public List<String> getTask() {
-		return task;
-	}
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
@@ -54,11 +47,7 @@ public class PropertyProvider implements InitializingBean {
 		Collections.sort(names);
 		
 		String[] splitTime = timeList.split(",");
-		time = Arrays.asList(splitTime);
-		
-		String[] splitTask = taskList.split(",");
-		task = Arrays.asList(splitTask);
-		Collections.sort(task);
+		time = Arrays.asList(splitTime);		
 	}
 
 }

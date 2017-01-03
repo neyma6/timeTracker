@@ -1,9 +1,9 @@
 package com.expedia.sol.dao.domain;
 
-import java.time.LocalTime;
-
 public class TimeInterval {
 
+	public static final TimeInterval EMPTY = new TimeInterval(0, 0);
+	
 	private final long start;
 	private final long end;
 	

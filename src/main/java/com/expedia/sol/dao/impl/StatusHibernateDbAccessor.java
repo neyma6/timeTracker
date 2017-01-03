@@ -5,49 +5,19 @@ import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.transform.Transformers;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import com.expedia.sol.dao.IDBAccessor;
 import com.expedia.sol.dao.domain.TimeInterval;
+import com.expedia.sol.dao.request.ListStatusRequest;
 import com.expedia.sol.domain.Status;
 import com.expedia.sol.util.DateFormatter;
 
-public class StatusHibernateDbAccessor implements IDBAccessor<Status, ListStatusRequest> {
+public class StatusHibernateDbAccessor extends AbstractHibernateDbAccessor<Status, ListStatusRequest> {
 
 	private static final String SELECT_STATUS_WITH_NAME = "select s.id, s.name, s.description, s.time, s.timestamp from Status as s where s.name = :name and s.timestamp between :start and :end";
 	private static final String SELECT_STATUS_WITHOUT_NAME = "select s.id, s.name, s.description, s.time, s.timestamp from Status as s where s.timestamp between :start and :end";
 	private static final String DELETE_STATUS = "delete from Status as s where s.id = :id";
 	
-	@Autowired
-	private SessionFactory sessionFactory;
-	
-	@Override
-	public boolean save(Status status) {
-		boolean success = true;
-		Session session = null;
-		Transaction tx = null;
-		try {
-			session = sessionFactory.openSession();
-			tx = session.beginTransaction();
-			session.save(status);
-		} catch(Exception ex) {
-			ex.printStackTrace();
-			success = false;
-		} finally {
-			try {
-				tx.commit();
-				session.close();
-			} catch(Exception ex) {
-				ex.printStackTrace();
-				success = false;
-			}
-		}
-		return success;
-	}
-
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<Status> get(ListStatusRequest request) {
@@ -85,46 +55,22 @@ public class StatusHibernateDbAccessor implements IDBAccessor<Status, ListStatus
 	}
 	
 	@Override
-	public Status getById(int id) {
+	public Status getById(ListStatusRequest request) {
 		Session session = sessionFactory.openSession();
-		Status status = (Status) session.get(Status.class, id);
+		Status status = (Status) session.get(Status.class, request.getId());
 		if (status != null) {
 			status.setDisplayDate(DateFormatter.formateTimeStampToDate(status.getTimestamp()));
 		} 
 		session.close();
 		return status;
 	}
-	
-	@Override
-	public boolean update(Status status) {
-		boolean success = true;
-		Session session = null;
-		Transaction tx = null;
-		try {
-			session = sessionFactory.openSession();
-			tx = session.beginTransaction();
-			session.update(status);
-		} catch(Exception ex) {
-			ex.printStackTrace();
-			success = false;
-		} finally {
-			try {
-				tx.commit();
-				session.close();
-			} catch(Exception ex) {
-				ex.printStackTrace();
-				success = false;
-			}
-		}
-		return success;
-	}
 
 	@Override
-	public boolean delete(int id) {
+	public boolean delete(ListStatusRequest request) {
 		boolean success = true;
 		try {
 			Session session = sessionFactory.openSession();
-			Query query = session.createQuery(DELETE_STATUS).setParameter("id", id);
+			Query query = session.createQuery(DELETE_STATUS).setParameter("id", request.getId());
 			query.executeUpdate();
 			session.close();
 		} catch(Exception ex) {

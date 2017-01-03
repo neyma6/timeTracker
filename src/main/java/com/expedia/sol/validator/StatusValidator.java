@@ -6,6 +6,7 @@ import org.springframework.validation.Validator;
 
 import com.expedia.sol.domain.Status;
 import com.expedia.sol.provider.PropertyProvider;
+import com.mysql.jdbc.StringUtils;
 
 public class StatusValidator implements Validator {
 
@@ -24,7 +25,7 @@ public class StatusValidator implements Validator {
 		if (!propertyProvider.getNames().contains(status.getName())) {
 			errors.rejectValue("name", "name.not.proper");
 		}
-		if (!propertyProvider.getTask().contains(status.getDescription())) {
+		if (StringUtils.isNullOrEmpty(status.getDescription())) {
 			errors.rejectValue("description", "desc.not.proper");
 		}
 		if (!propertyProvider.getTime().contains(status.getTime())) {

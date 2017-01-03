@@ -2,6 +2,8 @@ package com.expedia.sol.controller;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -15,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.expedia.sol.dao.IDBAccessor;
-import com.expedia.sol.dao.impl.ListStatusRequest;
+import com.expedia.sol.dao.request.ActivityDbRequest;
+import com.expedia.sol.dao.request.ListStatusRequest;
+import com.expedia.sol.domain.Activity;
 import com.expedia.sol.domain.Status;
 import com.expedia.sol.provider.PropertyProvider;
 
@@ -29,6 +33,9 @@ public class SubmitController {
 	@Resource(name = "hibernateDBAccessor")
 	private IDBAccessor<Status, ListStatusRequest> dbAccessor;
 	
+	@Resource(name = "activityHibernateDBAccessor")
+	private IDBAccessor<Activity, ActivityDbRequest> activityAccessor;
+	
 	@Resource(name = "statusValidator")
 	private Validator validator;
 	
@@ -36,7 +43,7 @@ public class SubmitController {
 	public void fill(Model model) {
 		model.addAttribute("names", propertyProvider.getNames());
 		model.addAttribute("time", propertyProvider.getTime());
-		model.addAttribute("task", propertyProvider.getTask());
+		model.addAttribute("task", getTasks(activityAccessor.get(new ActivityDbRequest())));
 	}
 	
 	@RequestMapping(method = RequestMethod.GET)
@@ -65,5 +72,13 @@ public class SubmitController {
 		
 		model.addAttribute("success", success);
 		return "submitForm";
+	}
+	
+	private List<String> getTasks(List<Activity> activities) {
+		List<String> tasks = new ArrayList<>();
+		for (Activity act : activities) {
+			tasks.add(act.getName());
+		}
+		return tasks;
 	}
 }

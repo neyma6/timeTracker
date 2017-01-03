@@ -18,11 +18,14 @@ import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
 import org.springframework.validation.Validator;
 
 import com.expedia.sol.dao.IDBAccessor;
+import com.expedia.sol.dao.impl.ActivityHibernateDbAccessor;
 import com.expedia.sol.dao.impl.StatusHibernateDbAccessor;
-import com.expedia.sol.dao.impl.ListStatusRequest;
+import com.expedia.sol.dao.request.ActivityDbRequest;
+import com.expedia.sol.dao.request.ListStatusRequest;
 import com.expedia.sol.domain.Activity;
 import com.expedia.sol.domain.Status;
 import com.expedia.sol.provider.PropertyProvider;
+import com.expedia.sol.validator.ActivityValidator;
 import com.expedia.sol.validator.ReportValidator;
 import com.expedia.sol.validator.StatusValidator;
 
@@ -40,8 +43,13 @@ public class ApplicationContext {
 	}
 	
 	@Bean(name = "hibernateDBAccessor")
-	public IDBAccessor<Status, ListStatusRequest> getDummyAccessor() {
+	public IDBAccessor<Status, ListStatusRequest> getStatusAccessor() {
 		return new StatusHibernateDbAccessor();
+	}
+	
+	@Bean(name = "activityHibernateDBAccessor")
+	public IDBAccessor<Activity, ActivityDbRequest> getActivityAccessor() {
+		return new ActivityHibernateDbAccessor();
 	}
 	
 	@Bean
@@ -81,6 +89,11 @@ public class ApplicationContext {
 	@Bean(name = "reportValidator")
 	public Validator getReportValidator() {
 		return new ReportValidator();
+	}
+	
+	@Bean(name = "activityValidator")
+	public Validator getActivityValidator() {
+		return new ActivityValidator();
 	}
 	
 	//@Bean(name = "transactionManager")

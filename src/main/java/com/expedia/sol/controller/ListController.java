@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.expedia.sol.dao.IDBAccessor;
 import com.expedia.sol.dao.domain.TimeInterval;
-import com.expedia.sol.dao.impl.ListStatusRequest;
+import com.expedia.sol.dao.request.ListStatusRequest;
 import com.expedia.sol.dao.util.TimeIntervalUtil;
 import com.expedia.sol.domain.Report;
 import com.expedia.sol.domain.Status;

@@ -6,7 +6,7 @@ public interface IDBAccessor<T, R extends DBRequest> {
 
 	boolean save(T type);
 	boolean update(T type);
-	boolean delete(int id);
-	T getById(int id);
+	boolean delete(R request);
+	T getById(R request);
 	List<T> get(R request);
 }
