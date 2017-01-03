@@ -19,13 +19,17 @@ import org.springframework.validation.Validator;
 
 import com.expedia.sol.dao.IDBAccessor;
 import com.expedia.sol.dao.impl.ActivityHibernateDbAccessor;
+import com.expedia.sol.dao.impl.PersonHibernateDbAccessor;
 import com.expedia.sol.dao.impl.StatusHibernateDbAccessor;
 import com.expedia.sol.dao.request.ActivityDbRequest;
+import com.expedia.sol.dao.request.PersonDbRequest;
 import com.expedia.sol.dao.request.StatusRequest;
 import com.expedia.sol.domain.Activity;
+import com.expedia.sol.domain.Person;
 import com.expedia.sol.domain.Status;
 import com.expedia.sol.provider.PropertyProvider;
 import com.expedia.sol.validator.ActivityValidator;
+import com.expedia.sol.validator.PersonValidator;
 import com.expedia.sol.validator.ReportValidator;
 import com.expedia.sol.validator.StatusValidator;
 
@@ -52,6 +56,12 @@ public class ApplicationContext {
 		return new ActivityHibernateDbAccessor();
 	}
 	
+	
+	@Bean(name = "personHibernateDbAccessor")
+	public IDBAccessor<Person, PersonDbRequest> getPersonAccessor() {
+		return new PersonHibernateDbAccessor();
+	}
+	
 	@Bean
 	public PropertyProvider getPropertyProvider() {
 		return new PropertyProvider();
@@ -75,7 +85,7 @@ public class ApplicationContext {
 		 
 	    LocalSessionFactoryBuilder sessionBuilder = new LocalSessionFactoryBuilder(dataSource);
 	 
-	    sessionBuilder.addAnnotatedClasses(Status.class, Activity.class);
+	    sessionBuilder.addAnnotatedClasses(Status.class, Activity.class, Person.class);
 	    sessionBuilder.addProperties(getHibernateProperties());
 	 
 	    return sessionBuilder.buildSessionFactory();
@@ -94,6 +104,11 @@ public class ApplicationContext {
 	@Bean(name = "activityValidator")
 	public Validator getActivityValidator() {
 		return new ActivityValidator();
+	}
+	
+	@Bean(name = "personValidator")
+	public Validator getPersonValidator() {
+		return new PersonValidator();
 	}
 	
 	//@Bean(name = "transactionManager")

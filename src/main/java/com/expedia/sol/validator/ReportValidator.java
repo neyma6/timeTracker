@@ -6,6 +6,7 @@ import org.springframework.validation.Validator;
 
 import com.expedia.sol.domain.Report;
 import com.expedia.sol.provider.PropertyProvider;
+import com.mysql.jdbc.StringUtils;
 
 public class ReportValidator implements Validator {
 
@@ -31,7 +32,7 @@ public class ReportValidator implements Validator {
 	}
 
 	private boolean isReportInvalid(Report report) {
-		return report.getName() != null && !propertyProvider.getNames().contains(report.getName());
+		return report.getName() != null && StringUtils.isEmptyOrWhitespaceOnly(report.getName());
 	}
 
 	private boolean isWeekInRange(Report report) {

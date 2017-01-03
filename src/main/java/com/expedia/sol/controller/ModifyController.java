@@ -14,11 +14,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.expedia.sol.dao.IDBAccessor;
 import com.expedia.sol.dao.request.ActivityDbRequest;
+import com.expedia.sol.dao.request.PersonDbRequest;
 import com.expedia.sol.dao.request.StatusRequest;
 import com.expedia.sol.domain.Activity;
+import com.expedia.sol.domain.Person;
 import com.expedia.sol.domain.Status;
 import com.expedia.sol.provider.PropertyProvider;
-import com.expedia.sol.util.ActivityToStringConverter;
+import com.expedia.sol.util.POJOToStringConverter;
 
 @Controller
 @RequestMapping("/modify")
@@ -33,6 +35,9 @@ public class ModifyController {
 	@Resource(name = "activityHibernateDBAccessor")
 	private IDBAccessor<Activity, ActivityDbRequest> activityAccessor;
 	
+	@Resource(name = "personHibernateDbAccessor")
+	private IDBAccessor<Person, PersonDbRequest> personAccessor;
+	
 	@Resource(name = "statusValidator")
 	private Validator validator;
 	
@@ -46,9 +51,9 @@ public class ModifyController {
 		}
 		
 		model.addAttribute("status", status);
-		model.addAttribute("names", propertyProvider.getNames());
+		model.addAttribute("names", POJOToStringConverter.getPersons(personAccessor.get(new PersonDbRequest())));
 		model.addAttribute("time", propertyProvider.getTime());
-		model.addAttribute("task", ActivityToStringConverter.getTasks(activityAccessor.get(new ActivityDbRequest())));
+		model.addAttribute("task", POJOToStringConverter.getTasks(activityAccessor.get(new ActivityDbRequest())));
 		
 		return "modify";
 	}

@@ -5,7 +5,7 @@
 
 <html>
 <head>
-	<title>Delete Activities</title>
+	<title>Delete Persons</title>
 	<link href="<c:url value="/resources/css/page.css" />" rel="stylesheet">
 </head>
 <body>
@@ -14,19 +14,19 @@
 
 
 
-<c:if test="${activities != null && activities.size() > 0}">
+<c:if test="${persons != null && persons.size() > 0}">
 
 	<table class="yellowBox">
 	    <tr>
 	        <th>Name</th>
 	        <th>Delete</th>
 	    </tr>
-	    <c:forEach items="${activities}" var="activity">
+	    <c:forEach items="${persons}" var="person">
 	        <tr>
-	            <td>${activity}</td>
+	            <td>${person}</td>
 	            <td>
-	            	<form action="deleteActivity" method="post">
-	            		<input type="hidden" name="name" value="${activity}">
+	            	<form action="deletePerson" method="post">
+	            		<input type="hidden" name="name" value="${person}">
 	            		<input type="submit" value="Delete">
 	            	</form>
 	            </td>
@@ -35,7 +35,7 @@
 	</table>
 </c:if>
 
-<c:if test="${activities != null && activities.size() == 0}">
+<c:if test="${persons != null && persons.size() == 0}">
 	<div class="yellowBox">
 		No data
 	</div>

@@ -17,12 +17,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.expedia.sol.dao.IDBAccessor;
 import com.expedia.sol.dao.domain.TimeInterval;
+import com.expedia.sol.dao.request.PersonDbRequest;
 import com.expedia.sol.dao.request.StatusRequest;
 import com.expedia.sol.dao.util.TimeIntervalUtil;
+import com.expedia.sol.domain.Person;
 import com.expedia.sol.domain.Report;
 import com.expedia.sol.domain.Status;
 import com.expedia.sol.provider.PropertyProvider;
 import com.expedia.sol.util.DateFormatter;
+import com.expedia.sol.util.POJOToStringConverter;
 
 @Controller
 @RequestMapping("/list")
@@ -34,12 +37,15 @@ public class ListController {
 	@Resource(name = "hibernateDBAccessor")
 	private IDBAccessor<Status, StatusRequest> dbAccessor;
 	
+	@Resource(name = "personHibernateDbAccessor")
+	private IDBAccessor<Person, PersonDbRequest> personAccessor;
+	
 	@Resource(name = "reportValidator")
 	private Validator validator;
 	
 	@ModelAttribute
 	public void fillModel(Model model) {
-		model.addAttribute("names", propertyProvider.getNames());
+		model.addAttribute("names", POJOToStringConverter.getPersons(personAccessor.get(new PersonDbRequest())));
 		model.addAttribute("weeks", propertyProvider.getWeek());
 		if (!model.containsAttribute("report")) {
 			model.addAttribute("report", new Report());

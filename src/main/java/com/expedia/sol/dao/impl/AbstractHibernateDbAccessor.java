@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.expedia.sol.dao.DBRequest;
 import com.expedia.sol.dao.IDBAccessor;
-import com.expedia.sol.dao.request.ActivityDbRequest;
-import com.expedia.sol.domain.Activity;
 
 public abstract class AbstractHibernateDbAccessor<T, R extends DBRequest> implements IDBAccessor<T, R> {
 

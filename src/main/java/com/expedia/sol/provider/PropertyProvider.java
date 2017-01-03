@@ -1,7 +1,6 @@
 package com.expedia.sol.provider;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.InitializingBean;
@@ -10,9 +9,6 @@ import org.springframework.beans.factory.annotation.Value;
 import com.expedia.sol.dao.util.TimeIntervalUtil;
 
 public class PropertyProvider implements InitializingBean {
-
-	@Value("${names.list}")
-	private String namesList;
 	
 	@Value("${time.values}")
 	private String timeList;
@@ -20,12 +16,8 @@ public class PropertyProvider implements InitializingBean {
 	@Value("${report.week}")
 	private String weeks;
 	
-	private List<String> names;
 	private List<String> time;
 	
-	public List<String> getNames() {
-		return names;
-	}
 
 	public List<String> getTime() {
 		return time;
@@ -41,11 +33,7 @@ public class PropertyProvider implements InitializingBean {
 	
 
 	@Override
-	public void afterPropertiesSet() throws Exception {
-		String[] split = namesList.split(",");
-		names = Arrays.asList(split);
-		Collections.sort(names);
-		
+	public void afterPropertiesSet() throws Exception {	
 		String[] splitTime = timeList.split(",");
 		time = Arrays.asList(splitTime);		
 	}

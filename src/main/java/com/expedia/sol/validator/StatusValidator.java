@@ -22,7 +22,7 @@ public class StatusValidator implements Validator {
 	public void validate(Object target, Errors errors) {
 		Status status = (Status) target;
 
-		if (!propertyProvider.getNames().contains(status.getName())) {
+		if (StringUtils.isNullOrEmpty(status.getName())) {
 			errors.rejectValue("name", "name.not.proper");
 		}
 		if (StringUtils.isNullOrEmpty(status.getDescription())) {
