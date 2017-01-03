@@ -15,7 +15,7 @@ import com.expedia.sol.dao.domain.TimeInterval;
 import com.expedia.sol.domain.Status;
 import com.expedia.sol.util.DateFormatter;
 
-public class HibernateDbAccessor implements IDBAccessor {
+public class HibernateDbAccessor implements IDBAccessor<Status, ListStatusRequest> {
 
 	private static final String SELECT_STATUS_WITH_NAME = "select s.id, s.name, s.description, s.time, s.timestamp from Status as s where s.name = :name and s.timestamp between :start and :end";
 	private static final String SELECT_STATUS_WITHOUT_NAME = "select s.id, s.name, s.description, s.time, s.timestamp from Status as s where s.timestamp between :start and :end";
@@ -50,21 +50,21 @@ public class HibernateDbAccessor implements IDBAccessor {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<Status> getStatus(String name, TimeInterval interval) {
+	public List<Status> get(ListStatusRequest request) {
 		Session session = sessionFactory.openSession();
-		System.out.println(interval.getStart() + " " + interval.getEnd());
+		System.out.println(request.getInterval().getStart() + " " + request.getInterval().getEnd());
 		
 		String query;
-		if (name != null) {
+		if (request.getName() != null) {
 			query = SELECT_STATUS_WITH_NAME;
 		} else {
 			query = SELECT_STATUS_WITHOUT_NAME;
 		}
 		
-		Query hibernateQuery = createQuery(session, query, interval);
+		Query hibernateQuery = createQuery(session, query, request.getInterval());
 		
-		if (name != null) {
-			hibernateQuery = hibernateQuery.setParameter("name", name);
+		if (request.getName() != null) {
+			hibernateQuery = hibernateQuery.setParameter("name", request.getName());
 		}
 		
 		List<List<Object>> result = hibernateQuery.list();
@@ -85,7 +85,7 @@ public class HibernateDbAccessor implements IDBAccessor {
 	}
 	
 	@Override
-	public Status getStatusById(int id) {
+	public Status getById(int id) {
 		Session session = sessionFactory.openSession();
 		Status status = (Status) session.get(Status.class, id);
 		if (status != null) {

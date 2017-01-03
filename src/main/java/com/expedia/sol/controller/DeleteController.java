@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.expedia.sol.dao.IDBAccessor;
+import com.expedia.sol.dao.impl.ListStatusRequest;
 import com.expedia.sol.domain.Status;
 
 @Controller
@@ -16,12 +17,12 @@ import com.expedia.sol.domain.Status;
 public class DeleteController {
 
 	@Resource(name = "hibernateDBAccessor")
-	private IDBAccessor dbAccessor;
+	private IDBAccessor<Status, ListStatusRequest> dbAccessor;
 	
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public String get(@RequestParam("id") String id, Model model) {
-		Status status = dbAccessor.getStatusById(Integer.parseInt(id));
+		Status status = dbAccessor.getById(Integer.parseInt(id));
 		
 		if (status == null) {
 			model.addAttribute("nodata", true);

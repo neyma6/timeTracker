@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.expedia.sol.dao.IDBAccessor;
+import com.expedia.sol.dao.impl.ListStatusRequest;
 import com.expedia.sol.domain.Status;
 import com.expedia.sol.provider.PropertyProvider;
 
@@ -26,7 +27,7 @@ public class SubmitController {
 	private PropertyProvider propertyProvider;
 	
 	@Resource(name = "hibernateDBAccessor")
-	private IDBAccessor dbAccessor;
+	private IDBAccessor<Status, ListStatusRequest> dbAccessor;
 	
 	@Resource(name = "statusValidator")
 	private Validator validator;
