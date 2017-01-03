@@ -15,7 +15,7 @@ import com.expedia.sol.dao.domain.TimeInterval;
 import com.expedia.sol.domain.Status;
 import com.expedia.sol.util.DateFormatter;
 
-public class HibernateDbAccessor implements IDBAccessor<Status, ListStatusRequest> {
+public class StatusHibernateDbAccessor implements IDBAccessor<Status, ListStatusRequest> {
 
 	private static final String SELECT_STATUS_WITH_NAME = "select s.id, s.name, s.description, s.time, s.timestamp from Status as s where s.name = :name and s.timestamp between :start and :end";
 	private static final String SELECT_STATUS_WITHOUT_NAME = "select s.id, s.name, s.description, s.time, s.timestamp from Status as s where s.timestamp between :start and :end";

@@ -18,7 +18,7 @@ import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
 import org.springframework.validation.Validator;
 
 import com.expedia.sol.dao.IDBAccessor;
-import com.expedia.sol.dao.impl.HibernateDbAccessor;
+import com.expedia.sol.dao.impl.StatusHibernateDbAccessor;
 import com.expedia.sol.dao.impl.ListStatusRequest;
 import com.expedia.sol.domain.Activity;
 import com.expedia.sol.domain.Status;
@@ -41,7 +41,7 @@ public class ApplicationContext {
 	
 	@Bean(name = "hibernateDBAccessor")
 	public IDBAccessor<Status, ListStatusRequest> getDummyAccessor() {
-		return new HibernateDbAccessor();
+		return new StatusHibernateDbAccessor();
 	}
 	
 	@Bean
