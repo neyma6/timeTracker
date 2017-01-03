@@ -8,11 +8,11 @@ import org.hibernate.Session;
 import org.hibernate.transform.Transformers;
 
 import com.expedia.sol.dao.domain.TimeInterval;
-import com.expedia.sol.dao.request.ListStatusRequest;
+import com.expedia.sol.dao.request.StatusRequest;
 import com.expedia.sol.domain.Status;
 import com.expedia.sol.util.DateFormatter;
 
-public class StatusHibernateDbAccessor extends AbstractHibernateDbAccessor<Status, ListStatusRequest> {
+public class StatusHibernateDbAccessor extends AbstractHibernateDbAccessor<Status, StatusRequest> {
 
 	private static final String SELECT_STATUS_WITH_NAME = "select s.id, s.name, s.description, s.time, s.timestamp from Status as s where s.name = :name and s.timestamp between :start and :end";
 	private static final String SELECT_STATUS_WITHOUT_NAME = "select s.id, s.name, s.description, s.time, s.timestamp from Status as s where s.timestamp between :start and :end";
@@ -20,7 +20,7 @@ public class StatusHibernateDbAccessor extends AbstractHibernateDbAccessor<Statu
 	
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<Status> get(ListStatusRequest request) {
+	public List<Status> get(StatusRequest request) {
 		Session session = sessionFactory.openSession();
 		System.out.println(request.getInterval().getStart() + " " + request.getInterval().getEnd());
 		
@@ -55,7 +55,7 @@ public class StatusHibernateDbAccessor extends AbstractHibernateDbAccessor<Statu
 	}
 	
 	@Override
-	public Status getById(ListStatusRequest request) {
+	public Status getById(StatusRequest request) {
 		Session session = sessionFactory.openSession();
 		Status status = (Status) session.get(Status.class, request.getId());
 		if (status != null) {
@@ -66,7 +66,7 @@ public class StatusHibernateDbAccessor extends AbstractHibernateDbAccessor<Statu
 	}
 
 	@Override
-	public boolean delete(ListStatusRequest request) {
+	public boolean delete(StatusRequest request) {
 		boolean success = true;
 		try {
 			Session session = sessionFactory.openSession();

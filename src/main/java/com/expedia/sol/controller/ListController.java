@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.expedia.sol.dao.IDBAccessor;
 import com.expedia.sol.dao.domain.TimeInterval;
-import com.expedia.sol.dao.request.ListStatusRequest;
+import com.expedia.sol.dao.request.StatusRequest;
 import com.expedia.sol.dao.util.TimeIntervalUtil;
 import com.expedia.sol.domain.Report;
 import com.expedia.sol.domain.Status;
@@ -32,7 +32,7 @@ public class ListController {
 	private PropertyProvider propertyProvider;
 	
 	@Resource(name = "hibernateDBAccessor")
-	private IDBAccessor<Status, ListStatusRequest> dbAccessor;
+	private IDBAccessor<Status, StatusRequest> dbAccessor;
 	
 	@Resource(name = "reportValidator")
 	private Validator validator;
@@ -62,7 +62,7 @@ public class ListController {
 		}
 		
 		TimeInterval interval = TimeIntervalUtil.getTimeInterval(report.getWeek());		
-		List<Status> statuses = dbAccessor.get(new ListStatusRequest(report.getName(), interval));
+		List<Status> statuses = dbAccessor.get(new StatusRequest(report.getName(), interval));
 		model.addAttribute("statuses", statuses);
 		model.addAttribute("workingHours", calculateWorkingHours(statuses));
 		model.addAttribute("start", DateFormatter.formateTimeStampToDate(interval.getStart()));

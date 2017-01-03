@@ -29,7 +29,7 @@
 		<form:form class="form-horizontal" method="post"
 		                modelAttribute="activity" action="addActivity">
 		   
-		   <label>Add a new activity</label>
+		   <label>Add new activity</label>
 		   <form:input path="name" /> 
 		      
 		   <button type="submit">Add</button>

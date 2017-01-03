@@ -9,10 +9,12 @@ import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.expedia.sol.dao.IDBAccessor;
 import com.expedia.sol.dao.request.ActivityDbRequest;
 import com.expedia.sol.domain.Activity;
+import com.expedia.sol.util.ActivityToStringConverter;
 
 @Controller
 @RequestMapping("/admin")
@@ -22,7 +24,7 @@ public class AdminController {
 	private Validator validator;
 	
 	@Resource(name = "activityHibernateDBAccessor")
-	private IDBAccessor<Activity, ActivityDbRequest> accessor;
+	private IDBAccessor<Activity, ActivityDbRequest> activityAccessor;
 	
 	@RequestMapping(value = "/addActivity", method = RequestMethod.GET)
 	public String getAddActivity(Model model) {
@@ -39,12 +41,31 @@ public class AdminController {
 		
 		if (result.hasErrors()) {
 			model.addAttribute("validationError", true);
-			return "addActivity";
+			return "deleteActivity";
 		}
 		
-		boolean success = accessor.save(activity);
+		boolean success = activityAccessor.save(activity);
 		model.addAttribute("success", success);
 		
 		return "addActivity";
 	}
+	
+	@RequestMapping(value = "/deleteActivity", method = RequestMethod.GET)
+	public String getDeleteActivity(Model model) {
+		
+		model.addAttribute("activities", ActivityToStringConverter.getTasks(activityAccessor.get(new ActivityDbRequest())));
+		return "deleteActivity";
+	}
+	
+	
+	@RequestMapping(value = "/deleteActivity", method = RequestMethod.POST)
+	public String postDeleteActivity(@RequestParam("name") String name, Model model) {
+		System.out.println(name);
+		activityAccessor.delete(new ActivityDbRequest(name));
+		
+		model.addAttribute("activities", ActivityToStringConverter.getTasks(activityAccessor.get(new ActivityDbRequest())));
+		return "deleteActivity";
+	}
+	
+	
 }

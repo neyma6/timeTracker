@@ -21,7 +21,7 @@ import com.expedia.sol.dao.IDBAccessor;
 import com.expedia.sol.dao.impl.ActivityHibernateDbAccessor;
 import com.expedia.sol.dao.impl.StatusHibernateDbAccessor;
 import com.expedia.sol.dao.request.ActivityDbRequest;
-import com.expedia.sol.dao.request.ListStatusRequest;
+import com.expedia.sol.dao.request.StatusRequest;
 import com.expedia.sol.domain.Activity;
 import com.expedia.sol.domain.Status;
 import com.expedia.sol.provider.PropertyProvider;
@@ -43,7 +43,7 @@ public class ApplicationContext {
 	}
 	
 	@Bean(name = "hibernateDBAccessor")
-	public IDBAccessor<Status, ListStatusRequest> getStatusAccessor() {
+	public IDBAccessor<Status, StatusRequest> getStatusAccessor() {
 		return new StatusHibernateDbAccessor();
 	}
 	

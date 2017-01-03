@@ -3,19 +3,19 @@ package com.expedia.sol.dao.request;
 import com.expedia.sol.dao.DBRequest;
 import com.expedia.sol.dao.domain.TimeInterval;
 
-public class ListStatusRequest implements DBRequest {
+public class StatusRequest implements DBRequest {
 
 	private final String name;
 	private final TimeInterval interval;
 	private final int id;
 	
-	public ListStatusRequest(String name, TimeInterval interval) {
+	public StatusRequest(String name, TimeInterval interval) {
 		this.name = name;
 		this.interval = interval;
 		this.id = 0;
 	}
 	
-	public ListStatusRequest(int id) {
+	public StatusRequest(int id) {
 		this.id = id;
 		this.name = "";
 		this.interval = TimeInterval.EMPTY;
