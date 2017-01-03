@@ -2,8 +2,9 @@ package com.expedia.sol.dao.request;
 
 import com.expedia.sol.dao.DBRequest;
 import com.expedia.sol.dao.domain.TimeInterval;
+import com.expedia.sol.domain.Status;
 
-public class StatusRequest implements DBRequest {
+public class StatusRequest implements DBRequest<Status> {
 
 	private final String name;
 	private final TimeInterval interval;
@@ -31,6 +32,13 @@ public class StatusRequest implements DBRequest {
 
 	public int getId() {
 		return id;
+	}
+
+	@Override
+	public Status createEntity() {
+		Status status = new Status();
+		status.setId(this.id);
+		return status;
 	}
 	
 	

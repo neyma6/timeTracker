@@ -16,7 +16,6 @@ public class StatusHibernateDbAccessor extends AbstractHibernateDbAccessor<Statu
 
 	private static final String SELECT_STATUS_WITH_NAME = "select s.id, s.name, s.description, s.time, s.timestamp from Status as s where s.name = :name and s.timestamp between :start and :end";
 	private static final String SELECT_STATUS_WITHOUT_NAME = "select s.id, s.name, s.description, s.time, s.timestamp from Status as s where s.timestamp between :start and :end";
-	private static final String DELETE_STATUS = "delete from Status as s where s.id = :id";
 	
 	@Override
 	@SuppressWarnings("unchecked")
@@ -63,20 +62,6 @@ public class StatusHibernateDbAccessor extends AbstractHibernateDbAccessor<Statu
 		} 
 		session.close();
 		return status;
-	}
-
-	@Override
-	public boolean delete(StatusRequest request) {
-		boolean success = true;
-		try {
-			Session session = sessionFactory.openSession();
-			Query query = session.createQuery(DELETE_STATUS).setParameter("id", request.getId());
-			query.executeUpdate();
-			session.close();
-		} catch(Exception ex) {
-			success = false;
-		}
-		return success;
 	}
 	
 	private Query createQuery(Session session, String query, TimeInterval interval) {

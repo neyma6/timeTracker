@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.expedia.sol.dao.DBRequest;
 import com.expedia.sol.dao.IDBAccessor;
+import com.expedia.sol.dao.request.ActivityDbRequest;
+import com.expedia.sol.domain.Activity;
 
 public abstract class AbstractHibernateDbAccessor<T, R extends DBRequest> implements IDBAccessor<T, R> {
 
@@ -46,6 +48,30 @@ public abstract class AbstractHibernateDbAccessor<T, R extends DBRequest> implem
 			session = sessionFactory.openSession();
 			tx = session.beginTransaction();
 			session.update(type);
+		} catch(Exception ex) {
+			ex.printStackTrace();
+			success = false;
+		} finally {
+			try {
+				tx.commit();
+				session.close();
+			} catch(Exception ex) {
+				ex.printStackTrace();
+				success = false;
+			}
+		}
+		return success;
+	}
+	
+	@Override
+	public boolean delete(DBRequest request) {
+		boolean success = true;
+		Session session = null;
+		Transaction tx = null;
+		try {
+			session = sessionFactory.openSession();
+			tx = session.beginTransaction();
+			session.delete(request.createEntity());
 		} catch(Exception ex) {
 			ex.printStackTrace();
 			success = false;

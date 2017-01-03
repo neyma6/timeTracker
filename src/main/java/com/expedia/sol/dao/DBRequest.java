@@ -1,5 +1,6 @@
 package com.expedia.sol.dao;
 
-public interface DBRequest {
+public interface DBRequest<T> {
 
+	T createEntity();
 }
