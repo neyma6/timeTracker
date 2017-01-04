@@ -181,13 +181,17 @@ select, input, textarea {
     padding: 10px;
 }
 
+.containerBox.center {
+	text-align: center;
+}
+
 .horizontalRule {
 	border: 0; 
 	height: 1px;
-	background-image: -webkit-linear-gradient(left, #CCCCCC, #A0A0A0, #CCCCCC);
-	background-image: -moz-linear-gradient(left, #CCCCCC, #A0A0A0, #CCCCCC);
-	background-image: -ms-linear-gradient(left, #CCCCCC, #A0A0A0, #CCCCCC);
-	background-image: -o-linear-gradient(left, #CCCCCC, #A0A0A0, #CCCCCC);
+	background-image: -webkit-linear-gradient(left, #D8D8D8, #A0A0A0, #D8D8D8);
+	background-image: -moz-linear-gradient(left, #D8D8D8, #A0A0A0, #D8D8D8);
+	background-image: -ms-linear-gradient(left, #D8D8D8, #A0A0A0, #D8D8D8);
+	background-image: -o-linear-gradient(left, #D8D8D8, #A0A0A0, #D8D8D8);
 }
 
 .form-horizontal {

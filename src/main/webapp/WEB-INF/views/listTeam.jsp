@@ -39,14 +39,14 @@
 </c:if>
 
 <c:if test="${start != null}">
-	<div class="containerBox">
+	<div class="containerBox center">
 	<br><hr class="horizontalRule"/></hr></br>
 		<label>${start} - ${end}</label>
 	</div>
 </c:if>
 
 <c:if test="${statuses != null && statuses.size() > 0}">
-	<div class="containerBox">
+	<div class="containerBox center">
 		Working hours in this week: ${workingHours}
 	</div>
 </c:if>
