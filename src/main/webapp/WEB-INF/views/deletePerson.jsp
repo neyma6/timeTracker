@@ -10,13 +10,13 @@
 </head>
 <body>
 
-<%@include file="header/adminheader.jsp" %>
-
-
+<jsp:include page='header/adminheader.jsp'>
+    <jsp:param name="activeItem" value="personDel"/>
+</jsp:include>
 
 <c:if test="${persons != null && persons.size() > 0}">
 
-	<table class="yellowBox">
+	<table class="containerBox">
 	    <tr>
 	        <th>Name</th>
 	        <th>Delete</th>
@@ -36,7 +36,7 @@
 </c:if>
 
 <c:if test="${persons != null && persons.size() == 0}">
-	<div class="yellowBox">
+	<div class="containerBox">
 		No data
 	</div>
 </c:if>

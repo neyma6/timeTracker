@@ -10,9 +10,11 @@
 </head>
 <body>
 
-<%@include file="header/header.jsp" %>
+<jsp:include page='header/header.jsp'>
+    <jsp:param name="activeItem" value="list"/>
+</jsp:include>
 
-<div class="yellowBox">
+<div class="containerBox">
 	<form:form class="form-horizontal" method="post"
 	                modelAttribute="report" action="list">
 	   
@@ -39,26 +41,26 @@
 </div>
 
 <c:if test="${validationError != null}">
-	<div class="yellowBox">
+	<div class="containerBox">
 		Validation failed, invalid request was sent to server! Maybe you didn't select any person...
 	</div>
 </c:if>
 
 <c:if test="${start != null}">
-	<div class="yellowBox">
+	<div class="containerBox">
 		${start} - ${end}
 	</div>
 </c:if>
 
 <c:if test="${statuses != null && statuses.size() > 0}">
-	<div class="yellowBox">
+	<div class="containerBox">
 		Working hours in this week: ${workingHours}
 	</div>
 </c:if>
 
 <c:if test="${statuses != null && statuses.size() > 0}">
 
-	<div class="yellowBox">
+	<div class="containerBox">
 		<ul>
 			<c:forEach items="${activityWithHours}" var="entry">
 				<li>${entry.key}: <strong>${entry.value}</strong> hour(s) </li>
@@ -66,7 +68,7 @@
 		</ul>
 	</div>
 
-	<table class="yellowBox">
+	<table class="containerBox">
 	    <tr>
 	        <th>Name</th>
 	        <th>Time</th>
@@ -99,7 +101,7 @@
 </c:if>
 
 <c:if test="${statuses != null && statuses.size() == 0}">
-	<div class="yellowBox">
+	<div class="containerBox">
 		No data for this week
 	</div>
 </c:if>

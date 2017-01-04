@@ -9,10 +9,12 @@
 </head>
 <body>
 
-<%@include file="header/header.jsp" %>
+<jsp:include page='header/header.jsp'>
+    <jsp:param name="activeItem" value="report"/>
+</jsp:include>
 
 <c:if test="${success != null}">
-	<div class="yellowBox">
+	<div class="containerBox">
 		<c:choose>		
 				<c:when test="${success == true}">
 					Your task was recorded!
@@ -25,7 +27,7 @@
 </c:if>
 
 <c:if test="${success == null}">
-	<div class="yellowBox">
+	<div class="containerBox">
 		<form:form class="form-horizontal" method="post"
 		                modelAttribute="status" action="submit">
 		   
@@ -56,7 +58,7 @@
 </c:if>
 
 <c:if test="${validationError != null}">
-	<div class="yellowBox">
+	<div class="containerBox">
 		Validation failed, invalid request was sent to server! Maybe you didn't select any person...
 	</div>
 </c:if>

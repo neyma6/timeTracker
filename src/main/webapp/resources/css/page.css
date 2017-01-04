@@ -1,15 +1,59 @@
+body {
+	margin: auto;
+    width: 50%;
+}
+.banner {
+    margin-bottom: 0;
+    background: -webkit-linear-gradient(rgba(250,201,46,1), rgba(246,163,15,1)); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(rgba(250,201,46,1), rgba(246,163,15,1)); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(rgba(250,201,46,1), rgba(246,163,15,1)); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(rgba(250,201,46,1), rgba(246,163,15,1));	/* Standard syntax */
+}
+
+.banner p {
+	font-family: "Arial";
+	font-size: 40px;
+	padding: 15px;
+	font-weight: bold;
+	color: white;
+	margin-bottom: 0;
+}
+
+.banner span {
+	color: black;
+}
+
+.adminBanner {
+    margin-bottom: 0;
+    background: -webkit-linear-gradient(rgba(102,102,102,1), rgba(43,43,43,1)); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(rgba(102,102,102,1), rgba(43,43,43,1)); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(rgba(102,102,102,1), rgba(43,43,43,1)); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(rgba(102,102,102,1), rgba(43,43,43,1));	/* Standard syntax */
+}
+
+.adminBanner p {
+	font-family: "Arial";
+	font-size: 40px;
+	padding: 15px;
+	font-weight: bold;
+	color: white;
+	margin-bottom: 0;
+}
+
+#header {
+    background-color: rgb(43,43,43);
+}
 
 #header ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: yellow;
 }
 
 #header li {
     float: left;
-    border-right:1px solid #bbb;
+    border-right:1px solid black;
 }
 
 #header li:last-child {
@@ -18,21 +62,72 @@
 
 #header li a {
     display: block;
-    color: black;
+    color: white;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
 }
 
-#header li a:hover:not(.active) {
-    background-color: green	;
+#header li a:hover {
+    color: rgb(246,163,15);
+}
+
+#header li a.active {
+    color: rgb(246,163,15);
+}
+
+#adminHeader {
+    background: -webkit-linear-gradient(rgba(76,159,237,1), rgba(16,72,167,1)); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(rgba(76,159,237,1), rgba(16,72,167,1)); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(rgba(76,159,237,1), rgba(16,72,167,1)); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(rgba(76,159,237,1), rgba(16,72,167,1));	/* Standard syntax */
+    
+    background: rgba(76,159,237,1)
+}
+
+#adminHeader li {
+    float: left;
+}
+
+#adminHeader li a:hover {
+    color: black;
+}
+
+#adminHeader li a.active {
+    color: black;
+}
+
+
+
+#adminHeader ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+#adminHeader li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
 }
 
 table {
     border-collapse: collapse;
-    width: 80%;
+    width: 100%;
     margin: auto;
 }
+
+tr:nth-child(even) {
+	background: rgb(216,216,216);
+}
+
+tr:nth-child(odd) {
+	background: #FFF
+}
+
 
 th, td {
 	width: 20%;
@@ -44,34 +139,61 @@ table, th, td {
 
 th {
     height: 50px;
+    background: -webkit-linear-gradient(rgba(250,201,46,1), rgba(246,163,15,1)); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(rgba(250,201,46,1), rgba(246,163,15,1)); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(rgba(250,201,46,1), rgba(246,163,15,1)); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(rgba(250,201,46,1), rgba(246,163,15,1));	/* Standard syntax */
 }
 
 td { text-align: center; }
 td * { display: inline; }
 
 label {
-	//padding: 10px 20px 10px 20px;
 	display: inherit;
+	font-weight: bold;
+	padding-top: 10px;
 }
 
 button {
 	padding: 5px 20px 5px 20px;
+	margin-top: 20px;
+	margin-bottom: 10px;
+	background: -webkit-linear-gradient(rgba(250,201,46,1), rgba(246,163,15,1)); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(rgba(250,201,46,1), rgba(246,163,15,1)); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(rgba(250,201,46,1), rgba(246,163,15,1)); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(rgba(250,201,46,1), rgba(246,163,15,1));
+    border-style: none;
+    font-weight: bold;
 }
 
-select, input, textarea, label, button {
-	margin: 5px 5px 5px 5px;
+button:hover {
+	color: white;
+	cursor: pointer;
 }
 
-.yellowBox {
-	background: yellow;
-	//display: inline-block;
-	//border: 1px solid black;
-	
-	margin: auto;
-	margin-top: 10px;
-    width: 50%;
-    border: 3px solid green;
+select, input, textarea {
+	margin: 5px 5px 5px 0;
+}
+
+.containerBox {
+    background-color: rgb(216,216,216);
+   /*padding-top: 10px;*/
     padding: 10px;
 }
 
+.horizontalRule {
+	border: 0; 
+	height: 1px;
+	background-image: -webkit-linear-gradient(left, #CCCCCC, #A0A0A0, #CCCCCC);
+	background-image: -moz-linear-gradient(left, #CCCCCC, #A0A0A0, #CCCCCC);
+	background-image: -ms-linear-gradient(left, #CCCCCC, #A0A0A0, #CCCCCC);
+	background-image: -o-linear-gradient(left, #CCCCCC, #A0A0A0, #CCCCCC);
+}
 
+.form-horizontal {
+	margin-bottom: 0;
+}
+
+hr {
+	margin-bottom: 0;
+}
